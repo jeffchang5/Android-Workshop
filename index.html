@@ -59,7 +59,7 @@ class: center, middle
 
 # An Introduction to Android
 
-Jeffrey Chang, Pranay Kandru, Han Wang
+Jeffrey Chang
 
 
 ---
@@ -69,8 +69,9 @@ class: middle
 
 * Install Android Studio
   * https://developer.android.com
-* Sign up for OpenWeatherAPI Key
-  * https://home.openweathermap.org/users/sign_up
+* Install Android emulator or be able to build on a real device.
+* [Tutorial](https://dev.to/adammc331/setting-up-android-tooling-4oea) on setting up Android Studio
+
 
 ---
 
@@ -110,7 +111,7 @@ class: middle
 
 ```java
 import java.io.*;			// specify the Java libraries used
-public class exampleClass {		// name of the main class
+public class ExampleClass {		// name of the main class
 	public static void main (String [] args) throws Exception {
 		int i = 1, j = 2;
 		System.out.println(“Hello World!”);
@@ -122,7 +123,7 @@ Output
 >javac exampleClass.java
 >java exampleClass
 Hello World
-1+2=3
+>> 1+2=3
 ```
 
 ---
@@ -156,8 +157,7 @@ class: middle
 # Activities
 
 * Represents user interface and logic of one particular screen
-* Lifecycle
-* Inflates a View object.
+* This is used to hold most of your interactions.
 
 ---
 class: middle
@@ -165,7 +165,7 @@ class: middle
 # Fragments
 
 * A piece of code and view that modularizes the content in an Activity.
-* Lifecycle
+* You can build reusuable fragments to do similar tasks.
 * Activities can be organized into many fragments.
 
 ---
@@ -184,11 +184,6 @@ class: middle
         * Select API 21 (40.5% device support)
   * Empty Activity
   * Finish
-
-
-
-
-
 </textarea>
 
 <script src="remark.min.js">
