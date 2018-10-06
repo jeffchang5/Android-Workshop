@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>An Introduction to Android</title>
+    <meta charset="utf-8">
+    <style>
+        @import url(https://fonts.googleapis.com/css?family=Yanone+Kaffeesatz);
+        @import url(https://fonts.googleapis.com/css?family=Droid+Sans:400,700,400italic);
+        @import url(https://fonts.googleapis.com/css?family=Ubuntu+Mono:400,700,400italic);
+
+        body {
+            font-family: 'Droid Sans';
+            color: white;
+            font-size: 2em;
+            line-height: 35px;
+        }
+
+
+        h1, h2, h3 {
+            font-family: 'Yanone Kaffeesatz';
+            color: #fff564;
+            text-shadow: 3px -1px 2px rgba(150, 150, 150, 1);
+            font-weight: normal;
+        }
+
+        .remark-code, .remark-inline-code { font-family: 'Ubuntu Mono'; }
+
+        .remark-slide-content{
+            background-color: #FF534E;
+        }
+
+        .hljs-rainbow .hljs {
+            background: #272822;
+        }
+
+        .remark-code-line {
+            background: #272822;
+        }
+
+        .image-48 img {
+            width: 48%;
+        }
+
+        .image-55 img {
+            width: 55%;
+        }
+
+        a:link {
+            color: white;
+        }
+
+    </style>
+</head>
+
+<body>
+<textarea id="source">
+
+class: center, middle
+
+# An Introduction to Android
+
+Jeffrey Chang, Pranay Kandru, Han Wang
+
+
+---
+class: middle
+
+# Before We Get Started
+
+* Install Android Studio
+  * https://developer.android.com
+* Sign up for OpenWeatherAPI Key
+  * https://home.openweathermap.org/users/sign_up
+
+---
+
+class: middle
+# What We Will Talk About
+
+* Very Brief History of Android
+* Software Architecture
+* Android Application Life Cycle
+* Introduction to Android Development
+  * Activities
+  * Fragments
+  * Adapter View
+  * Make API Calls using Volley
+
+---
+class: middle
+
+# History of Android
+* Founded by Andy Rubin in 2003
+* Acquired by Google in 2005
+* First commercial phone avaliable in 2008
+* From Cupcake to Nougat
+
+---
+class: middle
+
+# Why does Android matter?
+
+* The most popular mobile operating system
+* Open-source project
+* Powers tablets, laptops, TV boxes, cars, watches
+
+---
+class: middle
+# Java Programming
+
+```java
+import java.io.*;			// specify the Java libraries used
+public class exampleClass {		// name of the main class
+	public static void main (String [] args) throws Exception {
+		int i = 1, j = 2;
+		System.out.println(“Hello World!”);
+		System.out.println(i + “+” + j + “=“ + (i+j));
+	}
+}
+
+Output
+>javac exampleClass.java
+>java exampleClass
+Hello World
+1+2=3
+```
+
+---
+
+class: center middle
+
+# Android Studio
+
+IDE used specifically for Android app development.
+
+---
+
+class: middle
+
+# Software Architecture
+
+.center[.image-48[![Architecture](images/android-stack_2x.png)]]
+
+---
+
+class: middle
+
+# Application Lifecycle
+
+.center[.image-55[![Architecture](images/activity_lifecycle.png)]]
+
+---
+
+class: middle
+
+# Activities
+
+* Represents user interface and logic of one particular screen
+* Lifecycle
+* Inflates a View object.
+
+---
+class: middle
+
+# Fragments
+
+* A piece of code and view that modularizes the content in an Activity.
+* Lifecycle
+* Activities can be organized into many fragments.
+
+---
+
+class: middle
+
+# Let's Get Started
+
+* Download our skeleton project:
+  * http://bit.ly/2onL0k5
+* Open Android Studio
+* Start a new Android Studio project
+  * Application Name: WeatherDemo
+  * Company domain: reverse URL (e.g. name.masseyhacks3.ca)
+  * Check "Phone and Tablet"
+        * Select API 21 (40.5% device support)
+  * Empty Activity
+  * Finish
+
+
+
+
+
+</textarea>
+
+<script src="remark.min.js">
+</script>
+<script>
+    var slideshow = remark.create({
+
+        navigation: {
+            scroll: true,
+            touch: true,
+            click: false
+        },
+        highlightStyle: "monokai"
+    });
+</script>
+</body>
+</html>
