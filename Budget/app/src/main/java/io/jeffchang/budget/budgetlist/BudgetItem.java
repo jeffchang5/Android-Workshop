@@ -1,6 +1,10 @@
 package io.jeffchang.budget.budgetlist;
 
-public class BudgetItem {
+import android.os.Parcel;
+import android.os.Parcelable;
+import android.support.annotation.NonNull;
+
+public class BudgetItem implements Parcelable {
 
     private String id;
 
@@ -54,4 +58,41 @@ public class BudgetItem {
     public void setAmount(float amount) {
         this.amount = amount;
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(this.id);
+        dest.writeString(this.name);
+        dest.writeString(this.category);
+        dest.writeFloat(this.amount);
+    }
+
+    @Override
+    public String toString() {
+        return "Budget name: " + this.name;
+    }
+
+    private BudgetItem(Parcel in) {
+        this.id = in.readString();
+        this.name = in.readString();
+        this.category = in.readString();
+        this.amount = in.readFloat();
+    }
+
+    public static final Parcelable.Creator<BudgetItem> CREATOR = new Parcelable.Creator<BudgetItem>() {
+        @Override
+        public BudgetItem createFromParcel(Parcel source) {
+            return new BudgetItem(source);
+        }
+
+        @Override
+        public BudgetItem[] newArray(int size) {
+            return new BudgetItem[size];
+        }
+    };
 }
