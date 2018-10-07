@@ -43,6 +43,11 @@ public class BudgetListRecyclerViewAdapter extends RecyclerView.Adapter<
         return budgetItems.size();
     }
 
+    public void addBudgetItem(BudgetItem budgetItem) {
+        budgetItems.add(budgetItem);
+        notifyDataSetChanged();
+    }
+
     class BudgetListViewHolder extends RecyclerView.ViewHolder {
 
         private final TextView titleTextView;

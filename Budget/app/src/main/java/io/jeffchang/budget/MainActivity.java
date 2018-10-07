@@ -20,6 +20,8 @@ public class MainActivity extends AppCompatActivity {
 
     public String TAG = MainActivity.class.getSimpleName();
 
+    private BudgetListRecyclerViewAdapter adapter;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,10 +61,9 @@ public class MainActivity extends AppCompatActivity {
         );
         budgetItemArrayList.add(payCheck);
 
-
         RecyclerView budgetRecyclerView = findViewById(R.id.activity_main_budget_recycler_view);
 
-        BudgetListRecyclerViewAdapter adapter = new BudgetListRecyclerViewAdapter(
+        adapter = new BudgetListRecyclerViewAdapter(
                 budgetItemArrayList
         );
         budgetRecyclerView.setLayoutManager(
@@ -84,6 +85,7 @@ public class MainActivity extends AppCompatActivity {
                         AddItemActivity.BUDGET_ITEM_EXTRA
                 );
                 Log.d(TAG, budgetItem.toString());
+                adapter.addBudgetItem(budgetItem);
             }
 
         }
