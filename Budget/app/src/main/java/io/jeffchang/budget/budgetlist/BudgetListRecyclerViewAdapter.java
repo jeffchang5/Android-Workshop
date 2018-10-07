@@ -17,8 +17,14 @@ public class BudgetListRecyclerViewAdapter extends RecyclerView.Adapter<
 
     private ArrayList<BudgetItem> budgetItems;
 
+    float sum = 0;
+
     public BudgetListRecyclerViewAdapter(ArrayList<BudgetItem> budgetItems) {
         this.budgetItems = budgetItems;
+
+        for (int i = 0; i < budgetItems.size(); i++) {
+            sum += budgetItems.get(i).getAmount();
+        }
     }
 
     @NonNull
@@ -43,9 +49,17 @@ public class BudgetListRecyclerViewAdapter extends RecyclerView.Adapter<
         return budgetItems.size();
     }
 
-    public void addBudgetItem(BudgetItem budgetItem) {
+    public float getSum() {
+        return sum;
+    }
+
+    // Returns sum of all balances.
+    public float addBudgetItem(BudgetItem budgetItem) {
         budgetItems.add(budgetItem);
+        sum += budgetItem.getAmount();
+
         notifyDataSetChanged();
+        return sum;
     }
 
     class BudgetListViewHolder extends RecyclerView.ViewHolder {

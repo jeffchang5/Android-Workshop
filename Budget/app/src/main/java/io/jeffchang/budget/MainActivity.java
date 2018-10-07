@@ -3,12 +3,14 @@ package io.jeffchang.budget;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 
@@ -21,15 +23,19 @@ public class MainActivity extends AppCompatActivity {
     public String TAG = MainActivity.class.getSimpleName();
 
     private BudgetListRecyclerViewAdapter adapter;
+    private TextView budgetTrackerTextView;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        budgetTrackerTextView = findViewById(R.id.activity_main_budget_tracker_view);
+
         setupRecyclerView();
 
         Button addButton = findViewById(R.id.activity_main_add_button);
+
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -66,10 +72,24 @@ public class MainActivity extends AppCompatActivity {
         adapter = new BudgetListRecyclerViewAdapter(
                 budgetItemArrayList
         );
+        setBudgetTrackerTextView(adapter.getSum());
+
         budgetRecyclerView.setLayoutManager(
                 new LinearLayoutManager(this)
         );
         budgetRecyclerView.setAdapter(adapter);
+    }
+
+
+    public void setBudgetTrackerTextView(float budget) {
+        int positiveGreenColor = ContextCompat.getColor(this, R.color.green);
+        int negativeRedColor = ContextCompat.getColor(this, R.color.red);
+
+        int backgroundColor = (budget >= 0) ? positiveGreenColor: negativeRedColor;
+        budgetTrackerTextView.setBackgroundColor(backgroundColor);
+
+        String budgetText = Float.toString(budget);
+        budgetTrackerTextView.setText("$" + budgetText);
     }
 
     @Override
@@ -85,7 +105,9 @@ public class MainActivity extends AppCompatActivity {
                         AddItemActivity.BUDGET_ITEM_EXTRA
                 );
                 Log.d(TAG, budgetItem.toString());
-                adapter.addBudgetItem(budgetItem);
+
+                float sum = adapter.addBudgetItem(budgetItem);
+                setBudgetTrackerTextView(sum);
             }
 
         }

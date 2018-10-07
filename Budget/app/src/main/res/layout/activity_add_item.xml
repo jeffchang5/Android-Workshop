@@ -25,7 +25,7 @@
         android:id="@+id/activity_add_item_amount_text_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:inputType="numberDecimal"
+        android:inputType="numberSigned"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
         android:hint="Amount" />
