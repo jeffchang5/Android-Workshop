@@ -7,11 +7,15 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 import io.jeffchang.budget.budgetlist.BudgetItem;
@@ -25,6 +29,8 @@ public class MainActivity extends AppCompatActivity {
     private BudgetListRecyclerViewAdapter adapter;
     private TextView budgetTrackerTextView;
 
+    float budgetLimit = 0;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,6 +41,41 @@ public class MainActivity extends AppCompatActivity {
         setupRecyclerView();
 
         Button addButton = findViewById(R.id.activity_main_add_button);
+
+
+        final EditText budgetLimitEditText = findViewById(R.id.activity_main_budget_edit_text);
+
+        budgetLimitEditText.addTextChangedListener(new TextWatcher() {
+
+            @Override public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                String input = s.toString();
+                if (!input.startsWith("$")) {
+                    input = "$" + input;
+
+                    // Prevents the user from deleting past the dollar sign symbol.
+                    budgetLimitEditText.setText(input);
+                    budgetLimitEditText.setSelection(1);
+                }
+                try {
+                    // Parses float of all characters after the dollar sign.
+                    input = input.substring(1);
+                    budgetLimit = Float.parseFloat(input);
+                } catch (NumberFormatException e) {
+                    // If the string is empty or invalid, treat the limit as zero.
+                    budgetLimit = 0;
+                }
+                setBudgetTrackerTextView(adapter.getSum());
+            }
+        });
 
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -85,10 +126,10 @@ public class MainActivity extends AppCompatActivity {
         int positiveGreenColor = ContextCompat.getColor(this, R.color.green);
         int negativeRedColor = ContextCompat.getColor(this, R.color.red);
 
-        int backgroundColor = (budget >= 0) ? positiveGreenColor: negativeRedColor;
+        int backgroundColor = (budget >= budgetLimit) ? positiveGreenColor: negativeRedColor;
         budgetTrackerTextView.setBackgroundColor(backgroundColor);
 
-        String budgetText = Float.toString(budget);
+        String budgetText = Float.toString(budget - budgetLimit);
         budgetTrackerTextView.setText("$" + budgetText);
     }
 
