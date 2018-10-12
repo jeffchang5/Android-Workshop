@@ -15,12 +15,19 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import java.text.DecimalFormat;
-import java.util.ArrayList;
 
-import io.jeffchang.budget.budgetlist.BudgetItem;
+import java.util.ArrayList;
+import java.util.List;
+
+import io.jeffchang.budget.model.BudgetItem;
 import io.jeffchang.budget.budgetlist.BudgetListRecyclerViewAdapter;
 import io.jeffchang.budget.budgetlist.additem.AddItemActivity;
+import io.jeffchang.budget.network.BudgetService;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.moshi.MoshiConverterFactory;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -30,18 +37,25 @@ public class MainActivity extends AppCompatActivity {
     private TextView budgetTrackerTextView;
 
     float budgetLimit = 0;
+    private BudgetService budgetService;
+    private ArrayList<BudgetItem> budgetItemArrayList;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+
         budgetTrackerTextView = findViewById(R.id.activity_main_budget_tracker_view);
+
+        setUpRetrofit();
 
         setupRecyclerView();
 
-        Button addButton = findViewById(R.id.activity_main_add_button);
+        // This has to be called after Retrofit and RecyclerView is set up.
+        getBudgetFromNetwork();
 
+        Button addButton = findViewById(R.id.activity_main_add_button);
 
         final EditText budgetLimitEditText = findViewById(R.id.activity_main_budget_edit_text);
 
@@ -91,29 +105,11 @@ public class MainActivity extends AppCompatActivity {
 
     private void setupRecyclerView() {
         // Here we add mock data to test our UI.
-        ArrayList<BudgetItem> budgetItemArrayList = new ArrayList<>();
-
-        BudgetItem gasItem = new BudgetItem(
-                "gas", "BP", "Utility", -43
-        );
-        budgetItemArrayList.add(gasItem);
-
-        BudgetItem tacoBellItem = new BudgetItem(
-                "taco_bell", "Taco Bell", "Food", -8
-        );
-        budgetItemArrayList.add(tacoBellItem);
-
-        BudgetItem payCheck = new BudgetItem(
-                "pay_check", "Pay Check", "Income", 3000
-        );
-        budgetItemArrayList.add(payCheck);
+        budgetItemArrayList = new ArrayList<>();
 
         RecyclerView budgetRecyclerView = findViewById(R.id.activity_main_budget_recycler_view);
 
-        adapter = new BudgetListRecyclerViewAdapter(
-                budgetItemArrayList
-        );
-        setBudgetTrackerTextView(adapter.getSum());
+        adapter = new BudgetListRecyclerViewAdapter(budgetItemArrayList);
 
         budgetRecyclerView.setLayoutManager(
                 new LinearLayoutManager(this)
@@ -121,17 +117,77 @@ public class MainActivity extends AppCompatActivity {
         budgetRecyclerView.setAdapter(adapter);
     }
 
+    public void setUpRetrofit() {
+        Retrofit retrofit =
+                new Retrofit.Builder()
+                        .baseUrl("https://rocky-fortress-15911.herokuapp.com")
+                        .addConverterFactory(MoshiConverterFactory.create())
+                        .build();
+
+        budgetService = retrofit.create(BudgetService.class);
+    }
+
+    // Only call when budgetService is not null.
+    public void getBudgetFromNetwork() {
+        budgetService.getBudget().enqueue(new Callback<List<BudgetItem>>() {
+            @Override
+            public void onResponse(
+                    Call<List<BudgetItem>> call,
+                    Response<List<BudgetItem>> response) {
+                Log.d("Main Activity", "Hello World");
+                budgetItemArrayList.addAll(response.body());
+                adapter.notifyDataSetChanged();
+                setBudgetTrackerTextView(adapter.getSum());
+
+            }
+
+            @Override
+            public void onFailure(Call<List<BudgetItem>> call, Throwable t) {
+                Log.e("MainActivity", "Couldn't get budgets");
+            }
+        });
+    }
+
+
+    // This method will update the database on our back-end and give back our budget that we update
+    // our RecyclerViewAdapter.
+    public void postBudget(final BudgetItem budgetItem) {
+        budgetService.postBudget(budgetItem).enqueue(new Callback<BudgetItem>() {
+            @Override
+            public void onResponse(Call<BudgetItem> call, Response<BudgetItem> response) {
+                budgetItemArrayList.add(budgetItem);
+                adapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onFailure(Call<BudgetItem> call, Throwable t) {
+                Log.e("MainActivity", "Couldn't save budgets");
+            }
+        });
+
+    }
 
     public void setBudgetTrackerTextView(float budget) {
         int positiveGreenColor = ContextCompat.getColor(this, R.color.green);
         int negativeRedColor = ContextCompat.getColor(this, R.color.red);
 
+        /*
+          Equivalent to
+
+          int backgroundColor;
+          if (budget >= budgetLimit) {
+              backgroundColor = positiveGreenColor;
+          } else {
+              backgroundColor = negativeRedColor;
+          }
+         */
         int backgroundColor = (budget >= budgetLimit) ? positiveGreenColor: negativeRedColor;
         budgetTrackerTextView.setBackgroundColor(backgroundColor);
 
         String budgetText = Float.toString(budget - budgetLimit);
         budgetTrackerTextView.setText("$" + budgetText);
     }
+
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
@@ -146,6 +202,8 @@ public class MainActivity extends AppCompatActivity {
                         AddItemActivity.BUDGET_ITEM_EXTRA
                 );
                 Log.d(TAG, budgetItem.toString());
+
+                postBudget(budgetItem);
 
                 float sum = adapter.addBudgetItem(budgetItem);
                 setBudgetTrackerTextView(sum);

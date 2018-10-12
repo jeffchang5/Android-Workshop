@@ -11,6 +11,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 import io.jeffchang.budget.R;
+import io.jeffchang.budget.model.BudgetItem;
 
 public class BudgetListRecyclerViewAdapter extends RecyclerView.Adapter<
         BudgetListRecyclerViewAdapter.BudgetListViewHolder> {

@@ -8,7 +8,7 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import io.jeffchang.budget.R;
-import io.jeffchang.budget.budgetlist.BudgetItem;
+import io.jeffchang.budget.model.BudgetItem;
 
 public class AddItemActivity extends AppCompatActivity {
 

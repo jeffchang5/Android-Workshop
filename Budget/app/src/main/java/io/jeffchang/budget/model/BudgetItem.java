@@ -1,8 +1,7 @@
-package io.jeffchang.budget.budgetlist;
+package io.jeffchang.budget.model;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.support.annotation.NonNull;
 
 public class BudgetItem implements Parcelable {
 
