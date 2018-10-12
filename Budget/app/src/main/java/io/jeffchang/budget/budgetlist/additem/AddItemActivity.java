@@ -48,7 +48,7 @@ public class AddItemActivity extends AppCompatActivity {
         // EditText stores a String. We must parse that String to receive a float.
         float amount = Float.parseFloat(amountEditText.getText().toString());
         return new BudgetItem(
-                "id",
+                null,
                 categoryEditText.getText().toString(),
                 titleEditText.getText().toString(),
                 amount

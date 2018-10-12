@@ -2,6 +2,7 @@ package io.jeffchang.budget.network
 
 import io.jeffchang.budget.model.BudgetItem
 import retrofit2.Call
+import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST
 
@@ -16,6 +17,6 @@ interface BudgetService {
     fun getBudget(): Call<List<BudgetItem>>
 
     @POST("/budget")
-    fun postBudget(budgetItem: BudgetItem): Call<BudgetItem>
+    fun postBudget(@Body budgetItem: BudgetItem): Call<BudgetItem>
 
 }
