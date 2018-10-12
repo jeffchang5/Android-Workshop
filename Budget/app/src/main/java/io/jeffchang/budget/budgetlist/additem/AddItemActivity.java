@@ -25,19 +25,27 @@ public class AddItemActivity extends AppCompatActivity {
         finishedButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                // Intent is what is passed back to the Activity.
                 Intent intent = new Intent();
+                // Extra is a place to store some value to pass.
                 intent.putExtra(BUDGET_ITEM_EXTRA, getBudgetItem());
+                // This is set as a status code for the developer to check if the Activity actually
+                // passed the information correctly. If not, we should pass an error.
                 setResult(RESULT_OK, intent);
                 finish();
             }
         });
     }
 
+
+    // This method actually creates a budget item from all of our EditText's.
+    // Gets all the data and returns a BudgetItem object.
     private BudgetItem getBudgetItem() {
         EditText categoryEditText = findViewById(R.id.activity_add_item_category_text_view);
         EditText titleEditText = findViewById(R.id.activity_add_item_title_text_view);
         EditText amountEditText = findViewById(R.id.activity_add_item_amount_text_view);
 
+        // EditText stores a String. We must parse that String to receive a float.
         float amount = Float.parseFloat(amountEditText.getText().toString());
         return new BudgetItem(
                 "id",
@@ -45,7 +53,6 @@ public class AddItemActivity extends AppCompatActivity {
                 titleEditText.getText().toString(),
                 amount
         );
-
     }
 
 }

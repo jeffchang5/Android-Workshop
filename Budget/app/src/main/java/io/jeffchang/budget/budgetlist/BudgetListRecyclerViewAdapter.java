@@ -18,11 +18,13 @@ public class BudgetListRecyclerViewAdapter extends RecyclerView.Adapter<
 
     private ArrayList<BudgetItem> budgetItems;
 
+    // This class also keeps track of all the total balance with all the items.
     float sum = 0;
 
     public BudgetListRecyclerViewAdapter(ArrayList<BudgetItem> budgetItems) {
         this.budgetItems = budgetItems;
 
+        // Iterates through all the items and updates our total sum of all of the amounts.
         for (int i = 0; i < budgetItems.size(); i++) {
             sum += budgetItems.get(i).getAmount();
         }
@@ -31,6 +33,8 @@ public class BudgetListRecyclerViewAdapter extends RecyclerView.Adapter<
     @NonNull
     @Override
     public BudgetListViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
+        // ViewHolders are used as a place to bind our data model (BudgetItem) to a view.
+        // The ViewHolder
         Context context = viewGroup.getContext();
         View budgetItem = LayoutInflater
                 .from(context)
