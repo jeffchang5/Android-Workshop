@@ -9,21 +9,24 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import io.jeffchang.budget.R;
+import io.jeffchang.budget.model.BudgetItem;
 
 public class BudgetListRecyclerViewAdapter extends RecyclerView.Adapter<
         BudgetListRecyclerViewAdapter.BudgetListViewHolder> {
 
-    private ArrayList<BudgetItem> budgetItems;
+    private ArrayList<BudgetItem> budgetItems = new ArrayList<>();
 
-    public BudgetListRecyclerViewAdapter(ArrayList<BudgetItem> budgetItems) {
-        this.budgetItems = budgetItems;
-    }
+    // This class also keeps track of all the total balance with all the items.
+    float sum = 0;
 
     @NonNull
     @Override
     public BudgetListViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
+        // ViewHolders are used as a place to bind our data model (BudgetItem) to a view.
+        // The ViewHolder
         Context context = viewGroup.getContext();
         View budgetItem = LayoutInflater
                 .from(context)
@@ -41,6 +44,31 @@ public class BudgetListRecyclerViewAdapter extends RecyclerView.Adapter<
     @Override
     public int getItemCount() {
         return budgetItems.size();
+    }
+
+    public float getSum() {
+        return sum;
+    }
+
+    // Returns sum of all balances.
+    public float addBudgetItem(BudgetItem budgetItem) {
+        budgetItems.add(budgetItem);
+        sum += budgetItem.getAmount();
+
+        notifyDataSetChanged();
+        return sum;
+    }
+
+    // Adds and updates a list of budget items and return the sum of all of those amounts.
+    public float addBudgetItemList(List<BudgetItem> budgetItemList) {
+        budgetItems.addAll(budgetItemList);
+
+        notifyDataSetChanged();
+
+        for (int i = 0; i < budgetItemList.size(); i++) {
+            sum += budgetItemList.get(i).getAmount();
+        }
+        return sum;
     }
 
     class BudgetListViewHolder extends RecyclerView.ViewHolder {

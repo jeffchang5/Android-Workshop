@@ -59,7 +59,7 @@ class: center, middle
 
 # An Introduction to Android
 
-Jeffrey Chang
+Jeffrey Chang, Adam McNeilly
 
 
 ---
@@ -68,33 +68,23 @@ class: middle
 # Before We Get Started
 
 * Install Android Studio
-  * https://developer.android.com
+  * IDE used specifically for Android app development.
+  * https://developer.android.com/studio/
 * Install Android emulator or be able to build on a real device.
 * [Tutorial](https://dev.to/adammc331/setting-up-android-tooling-4oea) on setting up Android Studio
 
-
 ---
-
 class: middle
 # What We Will Talk About
 
 * Very Brief History of Android
 * Software Architecture
-* Android Application Life Cycle
+* Android Activity
+  * Activity Lifecycle
 * Introduction to Android Development
-  * Activities
-  * Fragments
-  * Adapter View
-  * Make API Calls using Volley
-
----
-class: middle
-
-# History of Android
-* Founded by Andy Rubin in 2003
-* Acquired by Google in 2005
-* First commercial phone avaliable in 2008
-* From Cupcake to Nougat
+  * Java Programming
+  * Kotlin
+  * Create your own budget app
 
 ---
 class: middle
@@ -104,6 +94,38 @@ class: middle
 * The most popular mobile operating system
 * Open-source project
 * Powers tablets, laptops, TV boxes, cars, watches
+
+---
+class: middle
+
+# History of Android
+* Founded by Andy Rubin in 2003
+* Acquired by Google in 2005
+* First commercial phone avaliable in 2008
+* From Cupcake to Pie (Android 9)
+
+---
+class: middle
+
+# Software Architecture
+
+.center[.image-48[![Architecture](images/android-stack_2x.png)]]
+
+---
+class: middle
+
+# Android Activity
+
+* Represents user interface and logic of one particular screen
+* This is used to hold most of your interactions.
+* [Introduction to Activities](https://developer.android.com/guide/components/activities/intro-activities)
+
+---
+class: middle
+
+# Android Activity Lifecycle
+
+.center[.image-55[![Architecture](images/activity_lifecycle.png)]]
 
 ---
 class: middle
@@ -127,63 +149,34 @@ Hello World
 ```
 
 ---
-
-class: center middle
-
-# Android Studio
-
-IDE used specifically for Android app development.
-
----
-
 class: middle
+# Kotlin Programming
 
-# Software Architecture
+```java
+import java.io.*			// specify the Kotlin libraries used
 
-.center[.image-48[![Architecture](images/android-stack_2x.png)]]
+class ExampleClass {		// name of the main class
 
----
-
-class: middle
-
-# Application Lifecycle
-
-.center[.image-55[![Architecture](images/activity_lifecycle.png)]]
-
----
-
-class: middle
-
-# Activities
-
-* Represents user interface and logic of one particular screen
-* This is used to hold most of your interactions.
+    fun main() {
+        val i = 1
+        val j = 2
+        System.out.println(${"Hello World"})
+        System.out.println(${i + j})
+    }
+}
+```
 
 ---
-class: middle
-
-# Fragments
-
-* A piece of code and view that modularizes the content in an Activity.
-* You can build reusuable fragments to do similar tasks.
-* Activities can be organized into many fragments.
-
----
-
 class: middle
 
 # Let's Get Started
 
-* Download our skeleton project:
-  * http://bit.ly/2onL0k5
-* Open Android Studio
-* Start a new Android Studio project
-  * Application Name: WeatherDemo
-  * Company domain: reverse URL (e.g. name.masseyhacks3.ca)
-  * Check "Phone and Tablet"
-        * Select API 21 (40.5% device support)
-  * Empty Activity
-  * Finish
+* Clone this project from GitHub:
+  * https://github.com/jeffchang5/Android-Workshop.git
+```shell
+git clone https://github.com/jeffchang5/Android-Workshop.git
+```
+* Open the project in Android Studio project
 </textarea>
 
 <script src="remark.min.js">
